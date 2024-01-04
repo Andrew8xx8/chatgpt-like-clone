@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8502:8502"
+    environment:
+      - OPENAI_API_KEY
+    command: streamlit run chat.py
+    volumes:
+      - &app-volume .:/app:cached

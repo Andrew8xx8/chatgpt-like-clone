@@ -1,0 +1,4 @@
+.env
+.streamlit
+docker-compose.yml
+__pycache__/
