@@ -10,11 +10,25 @@ remote_pull:
 	git reset --hard
 	git pull origin main:main
 
-# Restart APP srvice
-remote_update:
+# Stop APP srvice
+remote_stop:
 	docker-compose down
-	docker-compose build
+
+# Start APP srvice
+remote_start:
 	docker-compose up -d
+
+# Init APP srvice
+remote_init:
+	make remote_pull
+	docker-compose build
+	make remote_start
+
+# Update APP srvice
+remote_update:
+	make remote_stop
+	docker-compose build
+	make remote_start
 
 # Commands without the 'remote_' prefix are executed locally.
 start_ssh_agent:
