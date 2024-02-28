@@ -1,4 +1,5 @@
 .env
 .streamlit
+.ssh
 docker-compose.yml
 __pycache__/

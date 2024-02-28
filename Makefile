@@ -1,7 +1,7 @@
 # Path to the application repository on the server.
 APP_PATH := "chatgpt-like-clone"
 # String used to specify the domain for SSH commands.
-SSH_APP_DOMAIN := "avk@left-gpt.8xx8.ru"
+SSH_APP_DOMAIN := "ubuntu@chatgpt-like.ai.dualboot.dev/"
 
 # Commands with the 'remote_' prefix are meant to be executed on the server in the application folder.
 
@@ -32,7 +32,7 @@ remote_update:
 
 # Commands without the 'remote_' prefix are executed locally.
 start_ssh_agent:
-	eval "$(ssh-agent -s)" && ssh-add ~/.ssh/id_rsa
+	eval "$(ssh-agent -s)" && ssh-add ./ssh/ssh.pem
 
 # Actual deployment command
 deploy:
