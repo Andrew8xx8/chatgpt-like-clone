@@ -32,18 +32,18 @@ remote_update:
 
 # Commands without the 'remote_' prefix are executed locally.
 start_ssh_agent:
-	eval "$(ssh-agent -s)" && ssh-add ./.ssh/ssh.pem
+	eval "$(ssh-agent -s)" && ssh-add ~/.ssh/id_rsa
 
 # Actual deployment command
 deploy:
 	make start_ssh_agent
-	ssh -A $(SSH_APP_DOMAIN) "cd $(APP_PATH) && make remote_pull && make remote_update"
+	ssh -i ./.ssh/ssh.pem -A $(SSH_APP_DOMAIN) "cd $(APP_PATH) && make remote_pull && make remote_update"
 
 ssh:
-	ssh -A $(SSH_APP_DOMAIN)
+	ssh -i ./.ssh/ssh.pem -A $(SSH_APP_DOMAIN)
 
 ssh_to_app:
 	make start_ssh_agent
-	ssh -At $(SSH_APP_DOMAIN) "cd $(APP_PATH) && docker-compose exec app bash"
+	ssh -i ./.ssh/ssh.pem -At $(SSH_APP_DOMAIN) "cd $(APP_PATH) && docker-compose exec app bash"
 
 .SILENT:

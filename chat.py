@@ -6,9 +6,6 @@ st.title("ChatGPT-like clone")
 
 client = OpenAI()
 
-if "openai_model" not in st.session_state:
-    st.session_state["openai_model"] = "gpt-4-0125-preview"
-
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
@@ -25,7 +22,7 @@ if prompt := st.chat_input("What is up?"):
         message_placeholder = st.empty()
         full_response = ""
         for response in client.chat.completions.create(
-            model=st.session_state["openai_model"],
+            model="gpt-4-0125-preview",
             messages=[
                 {"role": m["role"], "content": m["content"]}
                 for m in st.session_state.messages
