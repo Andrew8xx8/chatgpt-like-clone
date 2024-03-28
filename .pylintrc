@@ -1,0 +1,79 @@
+[MASTER]
+# Add <directories> to the black list. They should be base names, not paths.
+ignore=CVS
+
+# Python code to execute, usually for sys.path manipulation such as
+# pygtk.require().
+init-hook=
+
+# Only show warnings with the listed confidence levels. Leave empty to show
+# all. Valid levels: HIGH, INFERENCE, INFERENCE_FAILURE, UNDEFINED.
+confidence=
+
+[MESSAGES CONTROL]
+# Only show these messages
+enable=
+
+# Disable the message, report, category or checker with the given id(s).
+disable=missing-docstring,
+        missing-module-docstring,
+        missing-class-docstring,
+        missing-function-docstring,
+
+[REPORTS]
+# Set the output format. Available formats: text, parseable, colorized, msvs
+# (visual studio) and html
+output-format=text
+
+# Include message's id in output
+msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}"
+
+[REFACTORING]
+# Maximum number of nested blocks for function / method body
+max-nested-blocks=5
+
+[BASIC]
+# Good variable names which should always be accepted, separated by a comma
+good-names=i,
+           j,
+           k,
+           ex,
+           Run,
+           _
+
+# Bad variable names which should always be refused, separated by a comma
+bad-names=foo,
+          bar,
+          baz,
+          toto,
+          tutu,
+          tata
+
+[FORMAT]
+# Maximum number of characters on a single line.
+max-line-length=120
+
+# String used as indentation unit. This is usually "    " (4 spaces) or "\t" (1 tab).
+indent-string='    '
+
+[DESIGN]
+# Maximum number of arguments for function / method
+max-args=5
+
+# Maximum number of locals for function / method body
+max-locals=15
+
+# Maximum number of return / yield for function / method body
+max-returns=6
+
+# Maximum number of branch for function / method body
+max-branches=12
+
+# Maximum number of statements in function / method body
+max-statements=50
+
+[MISCELLANEOUS]
+# List of note tags to take in consideration, separated by a comma.
+notes=FIXME,
+      XXX,
+      TODO

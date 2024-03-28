@@ -1,2 +1,5 @@
 streamlit
 openai
+Pillow
+streamlit-bridge
+st-copy-to-clipboard
