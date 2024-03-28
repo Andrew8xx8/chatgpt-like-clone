@@ -1,5 +1,4 @@
 import json
-import uuid
 from openai import OpenAI
 import streamlit as st
 from st_bridge import bridge, html
@@ -9,20 +8,6 @@ from menu_html import generate_html_content
 
 def initialize_openai_client():
     return OpenAI()
-
-
-def initialize_streamlit_app(gpt_list):
-    st.title("ChatGPT-like clone")
-    gpt_id = bridge("current-gpt", default=gpt_list[0]["id"])
-    gpt = next((g for g in gpt_list if g["id"] == gpt_id), None)
-    st.session_state.current_uuid = str(uuid.uuid4())
-    st.session_state.current_messages = gpt["inital_messages"]
-
-    if "gpt" not in st.session_state:
-        st.session_state.gpt = gpt
-
-    if "current_messages" not in st.session_state:
-        st.session_state.current_messages = gpt["inital_messages"]
 
 
 def setup_streamlit_sidebar(html_content):
@@ -64,7 +49,7 @@ def handle_user_input(client):
 
         name = st.session_state.gpt["name"]
         image = st.session_state.gpt["image"]
-        with st.chat_message(name, image=image):
+        with st.chat_message(name, avatar=image):
             message_placeholder = st.empty()
             full_response = ""
             responses = client.chat.completions.create(
@@ -86,14 +71,15 @@ def handle_user_input(client):
         )
 
 
-def main():
-    client = initialize_openai_client()
-    initialize_streamlit_app(GPTs)
-    html_content = generate_html_content(GPTs)
-    setup_streamlit_sidebar(html_content)
-    handle_display_messages()
-    handle_user_input(client)
+st.title("ChatGPT-like clone")
+gpt_id = bridge("current-gpt", default=GPTs[0]["id"])
+gpt = next((g for g in GPTs if g["id"] == gpt_id), None)
+st.session_state.gpt = gpt
+st.session_state.current_messages = gpt["inital_messages"]
 
 
-if __name__ == "__main__":
-    main()
+client = initialize_openai_client()
+html_content = generate_html_content(GPTs)
+setup_streamlit_sidebar(html_content)
+handle_display_messages()
+handle_user_input(client)
