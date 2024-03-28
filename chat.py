@@ -1,6 +1,6 @@
 from openai import OpenAI
 import streamlit as st
-import os
+import json
 
 st.title("ChatGPT-like clone")
 
@@ -9,12 +9,25 @@ client = OpenAI()
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
+if not st.session_state.messages:
+    system_role_json = st.text_area("Enter JSON with system role", '{"role": "system", "content": "You are helpfull assistant"}')
+    if st.button("Set System Role"):
+        try:
+            system_role = json.loads(system_role_json)
+            if "role" in system_role and "content" in system_role:
+                st.session_state.messages.append(system_role)
+                st.success("System role set successfully.")
+            else:
+                st.error("Invalid JSON format. Please include 'role' and 'content'.")
+        except json.JSONDecodeError:
+            st.error("Invalid JSON. Please correct it and try again.")
+
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
 if prompt := st.chat_input("What is up?"):
-    st.session_state.messages.append({"role": "system", "content": "You are senior software developer. Your primary language is Python, you are expert in machine learning.  Do not ever write comments to code examples. Do not explain code until I explicitly ask you.", "role": "user", "content": prompt})
+    st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
 
@@ -33,3 +46,4 @@ if prompt := st.chat_input("What is up?"):
             message_placeholder.markdown(full_response + "▌")
         message_placeholder.markdown(full_response)
     st.session_state.messages.append({"role": "assistant", "content": full_response})
+
