@@ -41,7 +41,7 @@ def handle_display_messages():
             st.markdown(message["content"])
 
 
-def handle_user_input(client):
+def handle_user_input(gpt_client):
     if prompt := st.chat_input("What is up?"):
         st.session_state.current_messages.append({"role": "user", "content": prompt})
         with st.chat_message("user"):
@@ -52,7 +52,7 @@ def handle_user_input(client):
         with st.chat_message(name, avatar=image):
             message_placeholder = st.empty()
             full_response = ""
-            responses = client.chat.completions.create(
+            responses = gpt_client.chat.completions.create(
                 model="gpt-4-0125-preview",
                 messages=[
                     {"role": m["role"], "content": m["content"]}
@@ -75,7 +75,7 @@ st.title("ChatGPT-like clone")
 gpt_id = bridge("current-gpt", default=GPTs[0]["id"])
 gpt = next((g for g in GPTs if g["id"] == gpt_id), None)
 st.session_state.gpt = gpt
-st.session_state.current_messages = gpt["inital_messages"]
+st.session_state.current_messages = gpt["inital_messages"].copy()
 
 
 client = initialize_openai_client()
